@@ -1,0 +1,31 @@
+name = "radifanio-email-worker"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# R2 Bucket
+[[r2_buckets]]
+binding = "EMAIL_STORAGE"
+bucket_name = "email-storage"
+
+# D1 Database
+[[d1_databases]]
+binding = "EMAIL_DB"
+database_name = "email-db"
+database_id = "placeholder-replace-after-creation"
+
+# Queue Producer
+[[queues.producers]]
+binding = "EMAIL_QUEUE"
+queue = "email-events"
+
+# Queue Consumer (same worker consumes for now)
+[[queues.consumers]]
+queue = "email-events"
+max_batch_size = 10
+max_retries = 3
+
+# Email Routing
+[triggers]
+# Add your custom domain email routes here after deployment
+# e.g., routes for *@automation.yourdomain.com

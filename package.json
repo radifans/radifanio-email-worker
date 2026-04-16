@@ -1,0 +1,41 @@
+{
+  "name": "radifanio-email-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply email-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply email-db --remote",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github-radifan:radifans/radifanio-email-worker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/cloudflare": "^10.49.0",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.14",
+    "postal-mime": "^2.7.4",
+    "ulid": "^3.0.2"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.14.7",
+    "@cloudflare/workers-types": "^4.20260416.2",
+    "drizzle-kit": "^0.31.10",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4",
+    "wrangler": "^4.83.0"
+  }
+}
