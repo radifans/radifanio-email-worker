@@ -249,7 +249,7 @@ git commit -m "chore: project scaffolding with wrangler, hono, drizzle, vitest"
 Create `Dockerfile.dev`:
 
 ```dockerfile
-FROM node:22-slim
+FROM node:24-slim
 
 WORKDIR /app
 
