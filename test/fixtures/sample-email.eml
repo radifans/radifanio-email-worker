@@ -1,0 +1,26 @@
+From: bank@example.com
+To: creditcard@automation.example.com
+Subject: Your March 2026 Credit Card Statement
+Date: Sat, 15 Mar 2026 10:30:00 +0000
+MIME-Version: 1.0
+Message-ID: <unique-msg-id-123@example.com>
+Content-Type: multipart/mixed; boundary="boundary123"
+
+--boundary123
+Content-Type: text/plain; charset="utf-8"
+
+Your credit card statement for March 2026 is attached.
+
+--boundary123
+Content-Type: text/html; charset="utf-8"
+
+<html><body><p>Your credit card statement for March 2026 is attached.</p></body></html>
+
+--boundary123
+Content-Type: application/pdf; name="statement-march-2026.pdf"
+Content-Disposition: attachment; filename="statement-march-2026.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQKMSAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovUGFnZXMgMiAwIFIKPj4KZW5kb2Jq
+
+--boundary123--
