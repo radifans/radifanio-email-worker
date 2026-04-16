@@ -60,6 +60,7 @@ HTTP Client → Worker (fetch handler / Hono)
 | Error Tracking | Sentry (@sentry/cloudflare) |
 | Testing | Vitest + Miniflare |
 | Tooling | Wrangler |
+| Local Dev | Docker Compose |
 
 ## Data Model (Drizzle ORM)
 
@@ -230,6 +231,41 @@ Using `@sentry/cloudflare` SDK wrapping all three handlers. Reports:
 - **Unit tests** (Vitest): Email parsing, type resolution, filename sanitization, route handlers
 - **Integration tests** (Miniflare): Full email → R2 → D1 → Queue flow with local emulation
 - **API tests**: Hono route testing with mock bindings
+
+## Local Development (Docker Compose)
+
+Docker Compose for consistent development environments. A single `docker compose up` starts everything:
+
+- **worker** service: Node.js container running `wrangler dev --local`
+- Source code mounted as a volume for live reload
+- Port 8787 exposed for HTTP access
+- Miniflare emulates R2, D1, and Queues inside the container — no external services needed
+
+```yaml
+# docker-compose.yml
+services:
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8787:8787"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+```
+
+```dockerfile
+# Dockerfile.dev
+FROM node:22-slim
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+CMD ["npx", "wrangler", "dev", "--local", "--ip", "0.0.0.0"]
+```
 
 ## Volume Expectations
 

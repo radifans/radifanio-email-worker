@@ -61,7 +61,10 @@ radifanio-email-worker/
 ├── wrangler.toml
 ├── vitest.config.ts
 ├── tsconfig.json
-└── package.json
+├── package.json
+├── Dockerfile.dev
+├── docker-compose.yml
+└── .dockerignore
 ```
 
 ---
@@ -234,7 +237,81 @@ git commit -m "chore: project scaffolding with wrangler, hono, drizzle, vitest"
 
 ---
 
-## Task 2: Drizzle ORM Schema & Migration
+## Task 2: Docker Compose Setup
+
+**Files:**
+- Create: `Dockerfile.dev`
+- Create: `docker-compose.yml`
+- Create: `.dockerignore`
+
+**Step 1: Create Dockerfile.dev**
+
+Create `Dockerfile.dev`:
+
+```dockerfile
+FROM node:22-slim
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+
+EXPOSE 8787
+
+CMD ["npx", "wrangler", "dev", "--local", "--ip", "0.0.0.0"]
+```
+
+**Step 2: Create docker-compose.yml**
+
+Create `docker-compose.yml`:
+
+```yaml
+services:
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8787:8787"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+```
+
+**Step 3: Create .dockerignore**
+
+Create `.dockerignore`:
+
+```
+node_modules
+dist
+.wrangler
+.git
+*.md
+```
+
+**Step 4: Verify Docker build works**
+
+```bash
+docker compose build
+```
+
+Expected: Image builds successfully.
+
+**Step 5: Commit**
+
+```bash
+git add -A
+git commit -m "chore: add Docker Compose for local development"
+```
+
+---
+
+## Task 3: Drizzle ORM Schema & Migration
 
 **Files:**
 - Create: `src/db/schema.ts`
@@ -332,7 +409,7 @@ git commit -m "feat: add drizzle schema and initial migration"
 
 ---
 
-## Task 3: ULID Utility
+## Task 4: ULID Utility
 
 **Files:**
 - Create: `src/utils/ulid.ts`
@@ -408,7 +485,7 @@ git commit -m "feat: add ULID generation utility"
 
 ---
 
-## Task 4: Filename Sanitization Utility
+## Task 5: Filename Sanitization Utility
 
 **Files:**
 - Create: `src/utils/sanitize.ts`
@@ -572,7 +649,7 @@ git commit -m "feat: add filename sanitization utility"
 
 ---
 
-## Task 5: Email Parser Service
+## Task 6: Email Parser Service
 
 **Files:**
 - Create: `src/services/email-parser.ts`
@@ -738,7 +815,7 @@ git commit -m "feat: add email parser service using postal-mime"
 
 ---
 
-## Task 6: Storage Service
+## Task 7: Storage Service
 
 **Files:**
 - Create: `src/services/storage.ts`
@@ -834,7 +911,7 @@ git commit -m "feat: add R2 storage service"
 
 ---
 
-## Task 7: Queue Publisher Service
+## Task 8: Queue Publisher Service
 
 **Files:**
 - Create: `src/services/queue.ts`
@@ -918,7 +995,7 @@ git commit -m "feat: add queue publisher service"
 
 ---
 
-## Task 8: Email Handler
+## Task 9: Email Handler
 
 **Files:**
 - Create: `src/handlers/email.ts`
@@ -1091,7 +1168,7 @@ git commit -m "feat: add email ingestion handler"
 
 ---
 
-## Task 9: Queue Consumer Handler (Stub)
+## Task 10: Queue Consumer Handler (Stub)
 
 **Files:**
 - Create: `src/handlers/queue.ts`
@@ -1133,7 +1210,7 @@ git commit -m "feat: add queue consumer handler stub"
 
 ---
 
-## Task 10: Hono App — Auth Middleware
+## Task 11: Hono App — Auth Middleware
 
 **Files:**
 - Create: `src/api/middleware/auth.ts`
@@ -1241,7 +1318,7 @@ git commit -m "feat: add API key auth middleware"
 
 ---
 
-## Task 11: Health Route
+## Task 12: Health Route
 
 **Files:**
 - Create: `src/api/routes/health.ts`
@@ -1316,7 +1393,7 @@ git commit -m "feat: add health check route"
 
 ---
 
-## Task 12: Types API Routes
+## Task 13: Types API Routes
 
 **Files:**
 - Create: `src/api/routes/types.ts`
@@ -1658,7 +1735,7 @@ git commit -m "feat: add email types CRUD API routes"
 
 ---
 
-## Task 13: Emails API Routes
+## Task 14: Emails API Routes
 
 **Files:**
 - Create: `src/api/routes/emails.ts`
@@ -1961,7 +2038,7 @@ git commit -m "feat: add emails API routes with filtering and pagination"
 
 ---
 
-## Task 14: Hono App Assembly
+## Task 15: Hono App Assembly
 
 **Files:**
 - Create: `src/api/app.ts`
@@ -2016,7 +2093,7 @@ git commit -m "feat: assemble Hono app with routes and middleware"
 
 ---
 
-## Task 15: Worker Entry Point with Sentry
+## Task 16: Worker Entry Point with Sentry
 
 **Files:**
 - Create: `src/index.ts`
@@ -2076,7 +2153,7 @@ git commit -m "feat: add worker entry point with Sentry integration"
 
 ---
 
-## Task 16: Integration Test — Full Email Flow
+## Task 17: Integration Test — Full Email Flow
 
 **Files:**
 - Create: `test/integration/email-flow.test.ts`
@@ -2193,7 +2270,7 @@ git commit -m "test: add integration tests for email API flow"
 
 ---
 
-## Task 17: Final Verification & Cleanup
+## Task 18: Final Verification & Cleanup
 
 **Step 1: Run full test suite**
 
