@@ -18,6 +18,6 @@ export default defineConfig({
   ],
   test: {
     setupFiles: ["./test/setup/apply-d1-migrations.ts"],
-    include: ["test/unit/**/*.test.ts"],
+    include: ["test/unit/**/*.test.ts", "test/integration/**/*.test.ts"],
   },
 });

@@ -28,11 +28,20 @@ export async function parseEmail(rawEmail: string | ArrayBuffer): Promise<Parsed
     messageId: parsed.messageId || null,
     textBody: parsed.text || null,
     htmlBody: parsed.html || null,
-    attachments: (parsed.attachments || []).map((att) => ({
-      filename: att.filename || "unnamed",
-      contentType: att.mimeType || "application/octet-stream",
-      content: att.content,
-      size: att.content.byteLength,
-    })),
+    attachments: (parsed.attachments || []).map((att) => {
+      // postal-mime may return string | ArrayBuffer | Uint8Array depending on encoding
+      const content =
+        att.content instanceof ArrayBuffer
+          ? att.content
+          : att.content instanceof Uint8Array
+            ? att.content.buffer as ArrayBuffer
+            : new TextEncoder().encode(att.content as string).buffer as ArrayBuffer;
+      return {
+        filename: att.filename || "unnamed",
+        contentType: att.mimeType || "application/octet-stream",
+        content,
+        size: content.byteLength,
+      };
+    }),
   };
 }
