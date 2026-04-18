@@ -12,7 +12,7 @@ bucket_name = "email-storage-dev"
 [[d1_databases]]
 binding = "EMAIL_DB"
 database_name = "email-db-dev"
-database_id = "placeholder-replace-with-dev-db-id"
+database_id = "f5f2af25-7c42-421d-9b7f-ca8c08c59926"
 migrations_dir = "./drizzle"
 
 [[queues.producers]]
@@ -36,7 +36,7 @@ bucket_name = "email-storage-dev"
 [[env.dev.d1_databases]]
 binding = "EMAIL_DB"
 database_name = "email-db-dev"
-database_id = "placeholder-replace-with-dev-db-id"
+database_id = "f5f2af25-7c42-421d-9b7f-ca8c08c59926"
 migrations_dir = "./drizzle"
 
 [[env.dev.queues.producers]]
