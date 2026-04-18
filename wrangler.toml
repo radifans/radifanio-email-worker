@@ -13,6 +13,7 @@ bucket_name = "email-storage"
 binding = "EMAIL_DB"
 database_name = "email-db"
 database_id = "placeholder-replace-after-creation"
+migrations_dir = "./drizzle"
 
 # Queue Producer
 [[queues.producers]]
