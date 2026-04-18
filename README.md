@@ -337,7 +337,9 @@ Extend `src/handlers/queue.ts` to add downstream processing: OCR, data extractio
 | `npm run dev` | Start local dev server via Wrangler |
 | `npm test` | Run test suite |
 | `npm run typecheck` | TypeScript type check |
-| `npm run deploy` | Deploy to Cloudflare |
+| `npm run deploy:dev` | Deploy to `dev` environment |
+| `npm run deploy:prod` | Deploy to `production` environment |
 | `npm run db:generate` | Generate Drizzle migration files |
-| `npm run db:migrate:local` | Apply migrations locally |
-| `npm run db:migrate:remote` | Apply migrations to production D1 |
+| `npm run db:migrate:local` | Apply migrations locally (uses dev DB) |
+| `npm run db:migrate:dev` | Apply migrations to remote dev D1 |
+| `npm run db:migrate:prod` | Apply migrations to remote production D1 |

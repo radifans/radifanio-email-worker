@@ -9,12 +9,14 @@
   },
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "deploy:dev": "wrangler deploy --env dev",
+    "deploy:prod": "wrangler deploy --env production",
     "test": "vitest run",
     "test:watch": "vitest",
     "db:generate": "drizzle-kit generate",
-    "db:migrate:local": "wrangler d1 migrations apply email-db --local",
-    "db:migrate:remote": "wrangler d1 migrations apply email-db --remote",
+    "db:migrate:local": "wrangler d1 migrations apply email-db-dev --local",
+    "db:migrate:dev": "wrangler d1 migrations apply email-db-dev --remote --env dev",
+    "db:migrate:prod": "wrangler d1 migrations apply email-db --remote --env production",
     "typecheck": "tsc --noEmit"
   },
   "repository": {

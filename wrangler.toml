@@ -3,30 +3,79 @@ main = "src/index.ts"
 compatibility_date = "2024-12-01"
 compatibility_flags = ["nodejs_compat"]
 
-# R2 Bucket
+# ─── DEFAULT (used by `wrangler dev` locally) ─────────────────────────────────
+
 [[r2_buckets]]
+binding = "EMAIL_STORAGE"
+bucket_name = "email-storage-dev"
+
+[[d1_databases]]
+binding = "EMAIL_DB"
+database_name = "email-db-dev"
+database_id = "placeholder-replace-with-dev-db-id"
+migrations_dir = "./drizzle"
+
+[[queues.producers]]
+binding = "EMAIL_QUEUE"
+queue = "email-events-dev"
+
+[[queues.consumers]]
+queue = "email-events-dev"
+max_batch_size = 10
+max_retries = 3
+
+# ─── DEVELOPMENT environment (`--env dev`) ────────────────────────────────────
+
+[env.dev]
+name = "radifanio-email-worker-dev"
+
+[[env.dev.r2_buckets]]
+binding = "EMAIL_STORAGE"
+bucket_name = "email-storage-dev"
+
+[[env.dev.d1_databases]]
+binding = "EMAIL_DB"
+database_name = "email-db-dev"
+database_id = "placeholder-replace-with-dev-db-id"
+migrations_dir = "./drizzle"
+
+[[env.dev.queues.producers]]
+binding = "EMAIL_QUEUE"
+queue = "email-events-dev"
+
+[[env.dev.queues.consumers]]
+queue = "email-events-dev"
+max_batch_size = 10
+max_retries = 3
+
+# Email Routing (dev)
+[env.dev.triggers]
+# e.g., routes for *@dev.yourdomain.com
+
+# ─── PRODUCTION environment (`--env production`) ──────────────────────────────
+
+[env.production]
+name = "radifanio-email-worker"
+
+[[env.production.r2_buckets]]
 binding = "EMAIL_STORAGE"
 bucket_name = "email-storage"
 
-# D1 Database
-[[d1_databases]]
+[[env.production.d1_databases]]
 binding = "EMAIL_DB"
 database_name = "email-db"
-database_id = "placeholder-replace-after-creation"
+database_id = "placeholder-replace-with-prod-db-id"
 migrations_dir = "./drizzle"
 
-# Queue Producer
-[[queues.producers]]
+[[env.production.queues.producers]]
 binding = "EMAIL_QUEUE"
 queue = "email-events"
 
-# Queue Consumer (same worker consumes for now)
-[[queues.consumers]]
+[[env.production.queues.consumers]]
 queue = "email-events"
 max_batch_size = 10
 max_retries = 3
 
-# Email Routing
-[triggers]
-# Add your custom domain email routes here after deployment
+# Email Routing (production)
+[env.production.triggers]
 # e.g., routes for *@automation.yourdomain.com
