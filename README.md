@@ -111,7 +111,12 @@ The worker runs at `http://localhost:8787`.
 npm test
 ```
 
-Tests run inside a Miniflare environment (real Workers runtime) with an in-memory D1 database and R2.
+Tests run inside a Miniflare environment (real Workers runtime) with an in-memory D1 database and R2. D1 migrations are applied automatically before each test run.
+
+```bash
+npm test           # run all tests once
+npm run test:watch # watch mode
+```
 
 ### Typecheck
 
@@ -284,6 +289,46 @@ GET /api/emails/:id/attachments/:aid     Download attachment
   "pagination": { "page": 1, "limit": 20, "total": 1, "totalPages": 1 }
 }
 ```
+
+## Queue Events
+
+Each successfully processed email publishes an `email.received` event to the `email-events` queue:
+
+```typescript
+{
+  eventType: "email.received",
+  eventId: string,          // ULID
+  timestamp: string,        // ISO 8601
+  emailId: string,
+  typeId: string,
+  typeName: string,
+  from: string,
+  subject: string,
+  receivedAt: string,
+  storagePrefix: string,
+  bodyHtmlKey: string | null,
+  bodyTextKey: string | null,
+  attachments: Array<{
+    id: string,
+    filename: string,
+    contentType: string,
+    size: number,
+    storageKey: string
+  }>
+}
+```
+
+Extend `src/handlers/queue.ts` to add downstream processing: OCR, data extraction, webhooks, forwarding, etc.
+
+## Environment Bindings
+
+| Binding | Type | Description |
+|---------|------|-------------|
+| `EMAIL_STORAGE` | R2Bucket | Stores raw emails, bodies, and attachments |
+| `EMAIL_DB` | D1Database | SQLite metadata store (via Drizzle ORM) |
+| `EMAIL_QUEUE` | Queue | Publishes `email.received` events |
+| `API_KEY` | Secret | Authentication key for the REST API |
+| `SENTRY_DSN` | Secret | Sentry DSN for error tracking (empty string to disable) |
 
 ## Scripts
 
