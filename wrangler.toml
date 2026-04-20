@@ -48,9 +48,6 @@ queue = "email-events-dev"
 max_batch_size = 10
 max_retries = 3
 
-# Email Routing (dev)
-[env.dev.triggers]
-# e.g., routes for *@dev.yourdomain.com
 
 # ─── PRODUCTION environment (`--env production`) ──────────────────────────────
 
@@ -76,6 +73,3 @@ queue = "email-events"
 max_batch_size = 10
 max_retries = 3
 
-# Email Routing (production)
-[env.production.triggers]
-# e.g., routes for *@automation.yourdomain.com
