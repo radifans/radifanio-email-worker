@@ -37,6 +37,8 @@
     "@cloudflare/vitest-pool-workers": "^0.14.7",
     "@cloudflare/workers-types": "^4.20260416.2",
     "drizzle-kit": "^0.31.10",
+    "node-addon-api": "^8.0.0",
+    "node-gyp": "^11.0.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4",
     "wrangler": "^4.83.0"
