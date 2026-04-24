@@ -48,7 +48,6 @@ queue = "email-events-dev"
 max_batch_size = 10
 max_retries = 3
 
-
 # ─── PRODUCTION environment (`--env production`) ──────────────────────────────
 
 [env.production]
@@ -61,7 +60,7 @@ bucket_name = "email-storage"
 [[env.production.d1_databases]]
 binding = "EMAIL_DB"
 database_name = "email-db"
-database_id = "placeholder-replace-with-prod-db-id"
+database_id = "fe560a53-bebb-45b7-a477-bbf93cf8619a"
 migrations_dir = "./drizzle"
 
 [[env.production.queues.producers]]
@@ -72,4 +71,3 @@ queue = "email-events"
 queue = "email-events"
 max_batch_size = 10
 max_retries = 3
-
